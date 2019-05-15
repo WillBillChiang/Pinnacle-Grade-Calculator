@@ -14,6 +14,10 @@ if (categories != null){
         console.log(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3])
         arrPoints[i] = temp
     }
+    chrome.storage.local.set({category: true}, function() {
+    });
+    chrome.storage.local.set({catInfo: arrPoints}, function() {
+    });
 } else {
     var assignments = document.getElementsByClassName("assignment")
     var received = 0
@@ -28,4 +32,10 @@ if (categories != null){
         }
     }
     console.log(received + " " + total)
+    chrome.storage.local.set({category: false}, function() {
+    });
+    chrome.storage.local.set({received: received}, function() {
+    });
+    chrome.storage.local.set({total: total}, function() {
+    });
 }
