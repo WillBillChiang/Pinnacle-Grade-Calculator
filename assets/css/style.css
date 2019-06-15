@@ -1,0 +1,13 @@
+
+.calcbutton {
+    background: green !important;
+    align-content: center !important;
+    margin-left: 50% !important;
+    margin-right: 50% !important;
+    color: lightgrey !important;
+    padding: 0px !important;
+    overflow: none !important;
+  }
+.calcbutton:hover {
+    background: darkgreen !important;
+  }

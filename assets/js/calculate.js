@@ -39,3 +39,12 @@ if (categories != null){
     chrome.storage.local.set({total: total}, function() {
     });
 }
+var button = document.createElement("button");
+button.innerHTML = "Add Assignment";
+button.setAttribute("class", "calcbutton");
+var body = document.getElementsByTagName('h2')[1];
+body.appendChild(button);
+
+button.addEventListener ("click", function() {
+    alert("did something");
+  });
