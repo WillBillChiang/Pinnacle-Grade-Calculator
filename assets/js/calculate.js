@@ -169,7 +169,7 @@ button.addEventListener ("click", function() {
     
 
 
-    gradesArray.appendChild(newGrade);
+    gradesArray.prepend(newGrade);
     console.log(newGrade);
     console.log(gradesArray);
     calculatePoints();
