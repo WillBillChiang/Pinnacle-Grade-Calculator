@@ -211,7 +211,10 @@ button.addEventListener ("click", function() {
     let rec = document.getElementById("receivedPoints").value
     let tot = document.getElementById("totalPoints").value
     let nam = document.getElementById("name123").value
-    if (category) {let namCat = document.getElementById("category123").value}
+    var namCat = ""
+    if (categories != null) {
+        namCat = document.getElementById("category123").value
+    }
     if (nam == "") {
         nam = "Added Assignment"
     }
