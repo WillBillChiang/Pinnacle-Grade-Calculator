@@ -1,13 +1,12 @@
 // Setting up all the global variables and buttons before.
 var categories = document.getElementById("Categories")
+var gradesArray = document.getElementsByTagName('tbody')[2];
+
 var button = document.createElement("button");
 button.innerHTML = "Add Assignment";
 button.setAttribute("class", "calcbutton");
 var body = document.getElementsByTagName('h2')[1];
 body.appendChild(button);
-
-gradesArray = document.getElementsByTagName('tbody')[2];
-
 
 function calculatePoints(){
     if (categories != null){
@@ -52,6 +51,10 @@ function calculatePoints(){
     }
 }
 
+// *****************************************************************************************************************************************************************
+// THESE ARE THE FUNCTIONS TO CREATE THE HTML ELEMENTS THAT MOCK THE STYLE OF THE ORIGINAL WEBSITE'S ROWS
+// WE NEED TO CREATE A <td> TAG WITH ALL THE NECESSARY ELEMENTS AND ADD THEM TO A <tr>
+// CREATE THE CALENDAR AND DATE ICON
 function createTime(){
     
     // First creating the date icon
@@ -63,14 +66,15 @@ function createTime(){
     timeAttr.setAttribute("datetime", "2019-04-29T00:00:00");
 
     let spanAttr = document.createElement("span");
-    spanAttr.innerHTML = "Apr";
-    timeAttr.innerHTML = "29";
+    spanAttr.innerHTML = "N/A";
+    timeAttr.innerHTML = "N/A";
     
     timeAttr.appendChild(spanAttr);
     icon.appendChild(timeAttr);
     return icon;
 }
 
+// CREATE THE DESCRIPTION FOR THE GRADE
 function createDescription(descParam){
     let desc = document.createElement("td");
     desc.setAttribute("class", "description");
@@ -83,6 +87,7 @@ function createDescription(descParam){
     return desc;
 }
 
+// CREATE THE NUMERIC VALUE OF THE GRADE. EX: 1.5 / 2
 function createNumeric(achieved, max){
     let numeric = document.createElement("td");
     numeric.setAttribute("class", "numeric");
@@ -105,6 +110,7 @@ function createNumeric(achieved, max){
     return numeric;
 }
 
+// CALCULATE THE PERCENT LETTER AND ADJUST COLOR ACCORDINGLY.
 function createLetter(achieved, max){
     let style = "color:#007F00;background-color:#E6F2E6"; // Green background for 90 and above
     let letterGrade = "A";
@@ -151,7 +157,10 @@ function createLetter(achieved, max){
 
     return letter;
 }
+// *****************************************************************************************************************************************************************
+// END <td> TAGS
 
+// CONNECT THE BUTTON TO ADDING A NEW ROW
 button.addEventListener ("click", function() {
     // We need to create a new grade in order to append it to the grade array.
     var newGrade = document.createElement("tr");
