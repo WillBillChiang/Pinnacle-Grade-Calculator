@@ -19,13 +19,16 @@ var arrPoints = []
 function calculatePoints(){
     var received = 0
     var total = 0
+    var grade = 0
     if (categories != null){
         var descrip = categories.getElementsByClassName("description")
         arrPoints = new Array(descrip.length)
         for (i = 0; i < descrip.length; i++) {
             let temp = new Array(3)
             temp[0] = descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML
+            temp[0] = temp[0].replace(",","")
             temp[1] = descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML
+            temp[1] = temp[1].replace(",","")
             temp[2] = descrip[i].getElementsByClassName("percent")[0].innerHTML
             temp[2] = temp[2].substring(0, temp[2].indexOf("%"))
             temp[3] = descrip[i].innerHTML
@@ -33,8 +36,7 @@ function calculatePoints(){
             temp[3] = temp[3].trim(" ")
             console.log(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3])
             arrPoints[i] = temp
-            received += parseInt(temp[0]) * parseInt(temp[2])/100
-            total += parseInt(temp[1]) * parseInt(temp[2])/100
+            grade += (parseInt(temp[0])/parseInt(temp[1])) * (parseInt(temp[2])/100)
         }
         if (firstTime) {
             let selectCategory = document.createElement("select")
@@ -49,13 +51,29 @@ function calculatePoints(){
             category = true
             firstTime = false
         }
+        let letterProperties = createRawLetter(grade, 1);
+        var originGrade = document.getElementsByClassName("letter")[0];
+        
+        var newDiv = document.createElement('div');
+        newDiv.innerHTML=letterProperties[1];
+        
+        var newSpan = document.createElement('span');
+        newSpan.innerHTML = letterProperties[2] +"%";
+        newSpan.setAttribute("class", "percent");
+    
+        newDiv.appendChild(newSpan);
+        originGrade.innerHTML="";
+        originGrade.appendChild(newDiv);
+        originGrade.setAttribute("style", "margin-left:1rem;" + letterProperties[0]);
 
     } else {
         var assignments = document.getElementsByClassName("assignment")
     
         for (i = 0; i < assignments.length; i++) {
             let rTemp = assignments[i].getElementsByClassName("points")[0].innerHTML
-            if (!(rTemp === (""))) {
+            let excused = assignments[i].getElementsByClassName("letter")[1].getElementsByTagName("div")[1].innerHTML
+            console.log(excused)
+            if (!(rTemp === ("")) && !(excused == "X")) {
                 let tTemp = assignments[i].getElementsByClassName("max")[0].innerHTML
                 let weight = assignments[i].getElementsByClassName("weight")[0]
                 if (weight == null) {
@@ -73,23 +91,21 @@ function calculatePoints(){
             }
         }
         console.log(received + " " + total)
-
+        let letterProperties = createRawLetter(received, total);
+        var originGrade = document.getElementsByClassName("letter")[0];
+        
+        var newDiv = document.createElement('div');
+        newDiv.innerHTML=letterProperties[1];
+        
+        var newSpan = document.createElement('span');
+        newSpan.innerHTML = letterProperties[2] +"%";
+        newSpan.setAttribute("class", "percent");
+    
+        newDiv.appendChild(newSpan);
+        originGrade.innerHTML="";
+        originGrade.appendChild(newDiv);
+        originGrade.setAttribute("style", "margin-left:1rem;" + letterProperties[0]);
     }
-    console.log(received + " " + total)
-    let letterProperties = createRawLetter(received, total);
-    var originGrade = document.getElementsByClassName("letter")[0];
-    
-    var newDiv = document.createElement('div');
-    newDiv.innerHTML=letterProperties[1];
-    
-    var newSpan = document.createElement('span');
-    newSpan.innerHTML = letterProperties[2] +"%";
-    newSpan.setAttribute("class", "percent");
-
-    newDiv.appendChild(newSpan);
-    originGrade.innerHTML="";
-    originGrade.appendChild(newDiv);
-    originGrade.setAttribute("style", "margin-left:1rem;" + letterProperties[0]);
 }
 
 // *****************************************************************************************************************************************************************
@@ -153,16 +169,27 @@ function createRawLetter(achieved, max){
     let letterGrade = "A";
     let percent = Math.round(achieved / max * 100);
 
-
-    if (percent < 90){
+    if (percent < 90) {
+        style = "color:#237F00;background-color:#E9F2E6"
+        letterGrade = "B+"
+    }
+    if (percent < 87) {
         style = "color:#487F00;background-color:#EDF2E6";
         letterGrade = "B";
     }
-    if (percent < 80){
+    if (percent < 80) {
+        style = "color:#6D7F00;background-color:#F0F2E6";
+        letterGrade = "C+";
+    }
+    if (percent < 77){
         style = "color:#7F6D00;background-color:#F2F0E6";
         letterGrade = "C";
     }
-    if (percent < 70){
+    if (percent < 70) {
+        style = "color:#7F4800;background-color:#F2EDE6";
+        letterGrade = "D+";
+    }
+    if (percent < 67) {
         style = "color:#7F2400;background-color:#F2E9E6";
         letterGrade = "D";
     }
@@ -237,10 +264,14 @@ button.addEventListener ("click", function() {
             catValue = catValue.substring(catValue.indexOf("\n"), catValue.indexOf("<"))
             catValue = catValue.trim(" ")
             if (catValue == namCat) {
-                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML = parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML) + parseInt(rec)
-                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML = parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML) + parseInt(tot)
-                let changeLetter = document.getElementsByClassName("letter")[i+1]
-                console.log(changeLetter.innerHTML)
+                let temp = []
+                temp[0] = descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML
+                temp[0] = temp[0].replace(",","")
+                temp[1] = descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML
+                temp[1] = temp[1].replace(",","")
+                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML = parseInt(temp[0]) + parseInt(rec)
+                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML = parseInt(temp[1]) + parseInt(tot)
+                let changeLetter = document.getElementsByClassName("letter")[i*2+1]
                 changeLetter.replaceWith(createLetter(parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML), parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML)))
                 break
             }
