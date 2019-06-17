@@ -1,14 +1,12 @@
 
 .calcbutton {
     background: green !important;
-    align-content: center !important;
-    margin-left: 40% !important;
-    margin-right: 40% !important;
     color: lightgrey !important;
-    padding: 0px !important;
-    overflow: none !important;
-    width: 150px;
+    width: 150px !important;
+    display: block !important;
+    margin: 0 auto !important;
   }
+
 .calcbutton:hover {
     background: darkgreen !important;
   }
@@ -17,4 +15,8 @@
   align-content: center !important;
   text-align: center !important;
   margin: auto;
+}
+
+#category123 {
+  height: 28px;
 }

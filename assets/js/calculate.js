@@ -1,15 +1,19 @@
 // Setting up all the global variables and buttons before.
 var categories = document.getElementById("Categories")
 var gradesArray = document.getElementsByTagName('tbody')[2];
-
+if (categories != null) {
+    gradesArray = document.getElementsByTagName('tbody')[3];
+}
+var firstTime = true
 var button = document.createElement("button");
 button.innerHTML = "Add Assignment";
 button.setAttribute("class", "calcbutton");
 var body = document.getElementsByTagName('h2')[1];
 var body0 = document.getElementsByTagName('h2')[0];
 body.innerHTML += "<div class='form12'> <form id='mainForm'> <input type='text' id='name123' placeholder='Assignment Name'> <input type='number' id='receivedPoints' placeholder='Received Points'> <input type='number' id='totalPoints' placeholder='Total Points'> </form> </div> <br>"
+calculatePoints()
 body.appendChild(button);
-
+var category = false
 var arrPoints = []
 
 function calculatePoints(){
@@ -29,8 +33,23 @@ function calculatePoints(){
             temp[3] = temp[3].trim(" ")
             console.log(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3])
             arrPoints[i] = temp
+            received += parseInt(temp[0]) * parseInt(temp[2])/100
+            total += parseInt(temp[1]) * parseInt(temp[2])/100
         }
-        category = true
+        if (firstTime) {
+            let selectCategory = document.createElement("select")
+            selectCategory.setAttribute("id", "category123")
+            for (let ansh = 0; ansh < arrPoints.length; ansh++) {
+                options = document.createElement("option")
+                options.innerHTML = arrPoints[ansh][3]
+                options.setAttribute("value", arrPoints[ansh][3])
+                selectCategory.appendChild(options)
+            }
+            document.getElementsByClassName("form12")[0].appendChild(selectCategory)
+            category = true
+            firstTime = false
+        }
+
     } else {
         var assignments = document.getElementsByClassName("assignment")
     
@@ -38,31 +57,39 @@ function calculatePoints(){
             let rTemp = assignments[i].getElementsByClassName("points")[0].innerHTML
             if (!(rTemp === (""))) {
                 let tTemp = assignments[i].getElementsByClassName("max")[0].innerHTML
+                let weight = assignments[i].getElementsByClassName("weight")[0]
+                if (weight == null) {
+                    weight = 1
+                } else {
+                    weight = weight.innerHTML
+                    weight = weight.substring(2, weight.length)
+                    weight = parseFloat(weight)
+                    console.log(weight)
+                }
                 tTemp = tTemp.substring(tTemp.indexOf(" "), tTemp.length)
-                received = received + parseInt(rTemp)
-                total = total + parseInt(tTemp)
+                console.log(weight)
+                received = received + parseInt(rTemp)*weight
+                total = total + parseInt(tTemp)*weight
             }
         }
         console.log(received + " " + total)
 
-        let letterProperties = createRawLetter(received, total);
-        var originGrade = document.getElementsByClassName("letter")[0];
-        console.log(originGrade);
-        console.log(letterProperties)
-        
-        var newDiv = document.createElement('div');
-        newDiv.innerHTML=letterProperties[1];
-        
-        var newSpan = document.createElement('span');
-        newSpan.innerHTML = letterProperties[2] +"%";
-        newSpan.setAttribute("class", "percent");
-
-        newDiv.appendChild(newSpan);
-        originGrade.innerHTML="";
-        originGrade.appendChild(newDiv);
-        originGrade.setAttribute("style", "margin-left:1rem;" + letterProperties[0]);
-
     }
+    console.log(received + " " + total)
+    let letterProperties = createRawLetter(received, total);
+    var originGrade = document.getElementsByClassName("letter")[0];
+    
+    var newDiv = document.createElement('div');
+    newDiv.innerHTML=letterProperties[1];
+    
+    var newSpan = document.createElement('span');
+    newSpan.innerHTML = letterProperties[2] +"%";
+    newSpan.setAttribute("class", "percent");
+
+    newDiv.appendChild(newSpan);
+    originGrade.innerHTML="";
+    originGrade.appendChild(newDiv);
+    originGrade.setAttribute("style", "margin-left:1rem;" + letterProperties[0]);
 }
 
 // *****************************************************************************************************************************************************************
@@ -184,6 +211,7 @@ button.addEventListener ("click", function() {
     let rec = document.getElementById("receivedPoints").value
     let tot = document.getElementById("totalPoints").value
     let nam = document.getElementById("name123").value
+    if (category) {let namCat = document.getElementById("category123").value}
     if (nam == "") {
         nam = "Added Assignment"
     }
@@ -194,6 +222,28 @@ button.addEventListener ("click", function() {
     // Creating the TDs
     var date = createTime();
     var desc = createDescription(nam);
+    if (categories != null) {
+        let catAttr = document.createElement("div")
+        catAttr.setAttribute("class", "category")
+        catAttr.innerHTML = namCat
+        desc.appendChild(catAttr)
+        var descrip = categories.getElementsByClassName("description")
+        arrPoints = new Array(descrip.length)
+        for (i = 0; i < descrip.length; i++) {
+            catValue = descrip[i].innerHTML
+            catValue = catValue.substring(catValue.indexOf("\n"), catValue.indexOf("<"))
+            catValue = catValue.trim(" ")
+            if (catValue == namCat) {
+                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML = parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML) + parseInt(rec)
+                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML = parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML) + parseInt(tot)
+                let changeLetter = document.getElementsByClassName("letter")[i+1]
+                console.log(changeLetter.innerHTML)
+                changeLetter.replaceWith(createLetter(parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML), parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML)))
+                break
+            }
+        
+        }
+    }
     var numeric = createNumeric(rec, tot);
     var letter = createLetter(rec, tot);
 
