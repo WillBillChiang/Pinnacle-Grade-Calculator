@@ -6,12 +6,17 @@ var button = document.createElement("button");
 button.innerHTML = "Add Assignment";
 button.setAttribute("class", "calcbutton");
 var body = document.getElementsByTagName('h2')[1];
+var body0 = document.getElementsByTagName('h2')[0];
+body.innerHTML += "<div class='form12'> <form id='mainForm'> <input type='text' id='name123' placeholder='Assignment Name'> <input type='number' id='receivedPoints' placeholder='Received Points'> <input type='number' id='totalPoints' placeholder='Total Points'> </form> </div> <br>"
 body.appendChild(button);
+var received = 0
+var total = 0
+var arrPoints = []
 
 function calculatePoints(){
     if (categories != null){
         var descrip = categories.getElementsByClassName("description")
-        var arrPoints = new Array(descrip.length)
+        arrPoints = new Array(descrip.length)
         for (i = 0; i < descrip.length; i++) {
             let temp = new Array(3)
             temp[0] = descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML
@@ -27,8 +32,7 @@ function calculatePoints(){
         category = true
     } else {
         var assignments = document.getElementsByClassName("assignment")
-        var received = 0
-        var total = 0
+    
         for (i = 0; i < assignments.length; i++) {
             let rTemp = assignments[i].getElementsByClassName("points")[0].innerHTML
             if (!(rTemp === (""))) {
@@ -150,24 +154,29 @@ function createLetter(achieved, max){
 
 // CONNECT THE BUTTON TO ADDING A NEW ROW
 button.addEventListener ("click", function() {
+    let rec = document.getElementById("receivedPoints").value
+    let tot = document.getElementById("totalPoints").value
+    let nam = document.getElementById("name123").value
+    if (nam == "") {
+        nam = "Added Assignment"
+    }
+
     // We need to create a new grade in order to append it to the grade array.
     var newGrade = document.createElement("tr");
     newGrade.setAttribute("class", "assignment")
     // Creating the TDs
     var date = createTime();
-    var desc = createDescription("Added Assignment");
-    var numeric = createNumeric(1.5, 2);
-    var letter = createLetter(1.5, 2);
+    var desc = createDescription(nam);
+    var numeric = createNumeric(rec, tot);
+    var letter = createLetter(rec, tot);
 
     newGrade.appendChild(date);
     newGrade.appendChild(desc);
     newGrade.appendChild(numeric);
     newGrade.appendChild(letter);
-    
-
-
     gradesArray.prepend(newGrade);
     console.log(newGrade);
     console.log(gradesArray);
     calculatePoints();
+    
   });

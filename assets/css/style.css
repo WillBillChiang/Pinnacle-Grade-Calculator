@@ -13,9 +13,8 @@
     background: darkgreen !important;
   }
 
-.form {
+.form12 {
   align-content: center !important;
-  margin-left: 40% !important;
-  margin-right: 40% !important;
-  padding: 0px !important;
+  text-align: center !important;
+  margin: auto;
 }
