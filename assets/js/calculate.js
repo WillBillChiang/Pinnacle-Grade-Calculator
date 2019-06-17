@@ -9,11 +9,12 @@ var body = document.getElementsByTagName('h2')[1];
 var body0 = document.getElementsByTagName('h2')[0];
 body.innerHTML += "<div class='form12'> <form id='mainForm'> <input type='text' id='name123' placeholder='Assignment Name'> <input type='number' id='receivedPoints' placeholder='Received Points'> <input type='number' id='totalPoints' placeholder='Total Points'> </form> </div> <br>"
 body.appendChild(button);
-var received = 0
-var total = 0
+
 var arrPoints = []
 
 function calculatePoints(){
+    var received = 0
+    var total = 0
     if (categories != null){
         var descrip = categories.getElementsByClassName("description")
         arrPoints = new Array(descrip.length)
@@ -43,6 +44,24 @@ function calculatePoints(){
             }
         }
         console.log(received + " " + total)
+
+        let letterProperties = createRawLetter(received, total);
+        var originGrade = document.getElementsByClassName("letter")[0];
+        console.log(originGrade);
+        console.log(letterProperties)
+        
+        var newDiv = document.createElement('div');
+        newDiv.innerHTML=letterProperties[1];
+        
+        var newSpan = document.createElement('span');
+        newSpan.innerHTML = letterProperties[2] +"%";
+        newSpan.setAttribute("class", "percent");
+
+        newDiv.appendChild(newSpan);
+        originGrade.innerHTML="";
+        originGrade.appendChild(newDiv);
+        originGrade.setAttribute("style", "margin-left:1rem;" + letterProperties[0]);
+
     }
 }
 
@@ -102,8 +121,7 @@ function createNumeric(achieved, max){
     return numeric;
 }
 
-// CALCULATE THE PERCENT LETTER AND ADJUST COLOR ACCORDINGLY.
-function createLetter(achieved, max){
+function createRawLetter(achieved, max){
     let style = "color:#007F00;background-color:#E6F2E6"; // Green background for 90 and above
     let letterGrade = "A";
     let percent = Math.round(achieved / max * 100);
@@ -126,6 +144,15 @@ function createLetter(achieved, max){
         letterGrade = "F";
     }
 
+    return [style, letterGrade, percent];
+}
+// CALCULATE THE PERCENT LETTER AND ADJUST COLOR ACCORDINGLY.
+function createLetter(achieved, max){
+
+    let letterProperties = createRawLetter(achieved, max);
+    let style = letterProperties[0];
+    let letterGrade = letterProperties[1];
+    let percent = letterProperties[2];
     let letter = document.createElement("td");
     letter.setAttribute("class", "letter");
 
