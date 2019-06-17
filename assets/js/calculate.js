@@ -24,10 +24,7 @@ function calculatePoints(){
             console.log(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3])
             arrPoints[i] = temp
         }
-        chrome.storage.local.set({category: true}, function() {
-        });
-        chrome.storage.local.set({catInfo: arrPoints}, function() {
-        });
+        category = true
     } else {
         var assignments = document.getElementsByClassName("assignment")
         var received = 0
@@ -42,12 +39,6 @@ function calculatePoints(){
             }
         }
         console.log(received + " " + total)
-        chrome.storage.local.set({category: false}, function() {
-        });
-        chrome.storage.local.set({received: received}, function() {
-        });
-        chrome.storage.local.set({total: total}, function() {
-        });
     }
 }
 
@@ -56,7 +47,7 @@ function calculatePoints(){
 // WE NEED TO CREATE A <td> TAG WITH ALL THE NECESSARY ELEMENTS AND ADD THEM TO A <tr>
 // CREATE THE CALENDAR AND DATE ICON
 function createTime(){
-    
+    let d = new Date()
     // First creating the date icon
     let icon = document.createElement("td");
     icon.setAttribute("class", "icon-date");
@@ -64,12 +55,9 @@ function createTime(){
     let timeAttr = document.createElement("time");
     timeAttr.setAttribute('class', 'date-due');
     timeAttr.setAttribute("datetime", "2019-04-29T00:00:00");
-
-    let spanAttr = document.createElement("span");
-    spanAttr.innerHTML = "N/A";
-    timeAttr.innerHTML = "N/A";
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"," Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    timeAttr.innerHTML = "<span>" + months[d.getMonth()] + "</span>" + d.getDate();
     
-    timeAttr.appendChild(spanAttr);
     icon.appendChild(timeAttr);
     return icon;
 }
@@ -167,7 +155,7 @@ button.addEventListener ("click", function() {
     newGrade.setAttribute("class", "assignment")
     // Creating the TDs
     var date = createTime();
-    var desc = createDescription("yoink");
+    var desc = createDescription("Added Assignment");
     var numeric = createNumeric(1.5, 2);
     var letter = createLetter(1.5, 2);
 
