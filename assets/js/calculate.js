@@ -36,7 +36,7 @@ function calculatePoints(){
             temp[3] = temp[3].trim(" ")
             console.log(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3])
             arrPoints[i] = temp
-            grade += (parseInt(temp[0])/parseInt(temp[1])) * (parseInt(temp[2])/100)
+            grade += (parseFloat(temp[0])/parseFloat(temp[1])) * (parseFloat(temp[2])/100)
         }
         if (firstTime) {
             let selectCategory = document.createElement("select")
@@ -86,8 +86,8 @@ function calculatePoints(){
                 }
                 tTemp = tTemp.substring(tTemp.indexOf(" "), tTemp.length)
                 console.log(weight)
-                received = received + parseInt(rTemp)*weight
-                total = total + parseInt(tTemp)*weight
+                received = received + parseFloat(rTemp)*weight
+                total = total + parseFloat(tTemp)*weight
             }
         }
         console.log(received + " " + total)
@@ -269,10 +269,10 @@ button.addEventListener ("click", function() {
                 temp[0] = temp[0].replace(",","")
                 temp[1] = descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML
                 temp[1] = temp[1].replace(",","")
-                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML = parseInt(temp[0]) + parseInt(rec)
-                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML = parseInt(temp[1]) + parseInt(tot)
+                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML = parseFloat(temp[0]) + parseFloat(rec)
+                descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML = parseFloat(temp[1]) + parseFloat(tot)
                 let changeLetter = document.getElementsByClassName("letter")[i*2+1]
-                changeLetter.replaceWith(createLetter(parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML), parseInt(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML)))
+                changeLetter.replaceWith(createLetter(parseFloat(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("points")[0].innerHTML), parseFloat(descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML)))
                 break
             }
         
