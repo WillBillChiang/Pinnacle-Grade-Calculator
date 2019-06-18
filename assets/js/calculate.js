@@ -10,7 +10,7 @@ button.innerHTML = "Add Assignment";
 button.setAttribute("class", "calcbutton");
 var body = document.getElementsByTagName('h2')[1];
 var body0 = document.getElementsByTagName('h2')[0];
-body.innerHTML += "<div class='form12'> <form id='mainForm'> <input type='text' id='name123' placeholder='Assignment Name'> <input type='number' id='receivedPoints' placeholder='Received Points'> <input type='number' id='totalPoints' placeholder='Total Points'> </form> </div> <br>"
+body.innerHTML += `<div class='form12'> <form id='mainForm'> <input type='text' id='name123' placeholder='Assignment Name'> <input type='number' id='receivedPoints' placeholder='Received Points' step="0.01"> <input type='number' id='totalPoints' placeholder='Total Points' step = "0.01"> </form> </div> <br>`
 calculatePoints()
 body.appendChild(button);
 var category = false
