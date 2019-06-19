@@ -86,8 +86,8 @@ function calculatePoints(){
                 }
                 tTemp = tTemp.substring(tTemp.indexOf(" "), tTemp.length)
                 console.log(weight)
-                received = received + parseFloat(rTemp)*weight
-                total = total + parseFloat(tTemp)*weight
+                received = received + parseFloat(rTemp.replace(",",""))*weight
+                total = total + parseFloat(tTemp.replace(",",""))*weight
             }
         }
         console.log(received + " " + total)
