@@ -21,9 +21,9 @@
     "browser_action":{
       "default_icon": "assets/image/book-pack.svg"
     },
-    "icons": { "16": "assets/images/book.png",
-      "48": "assets/images/book2.png",
-     "128": "assets/images/book3.png"},
+    "icons": { "16": "assets/image/book.png",
+      "48": "assets/image/book2.png",
+     "128": "assets/image/book3.png"},
 
     "permissions": [
     ]
