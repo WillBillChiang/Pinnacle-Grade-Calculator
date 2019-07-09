@@ -24,7 +24,10 @@
     "icons": { "16": "assets/image/book.png",
       "48": "assets/image/book2.png",
      "128": "assets/image/book3.png"},
-
+    "background": {
+      "scripts": ["assets/js/background.js"]
+    },
     "permissions": [
+      "tabs"
     ]
     }
