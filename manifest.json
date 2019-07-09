@@ -19,7 +19,7 @@
         }
       ],
     "browser_action":{
-      "default_icon": "assets/image/book-pack.svg"
+      "default_icon": "assets/image/book.png"
     },
     "icons": { "16": "assets/image/book.png",
       "48": "assets/image/book2.png",
