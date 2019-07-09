@@ -19,6 +19,7 @@
         }
       ],
     "browser_action":{
+      "default_icon": "assets/image/book-pack.svg"
     },
 
     "permissions": [
