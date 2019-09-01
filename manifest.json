@@ -1,7 +1,7 @@
     {
     "manifest_version": 2,
     "name": "Pinnacle Grade Calculator",
-    "version": "1.0.0",
+    "version": "1.0.3",
 
     "description": "An extension to see how an assignment will affect your class grade.",
     "homepage_url": "https://github.com/WillBillChiang/Pinnacle-Grade-Calculator",
@@ -28,6 +28,5 @@
       "scripts": ["assets/js/background.js"]
     },
     "permissions": [
-      "tabs"
     ]
     }

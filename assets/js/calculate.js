@@ -12,6 +12,7 @@ var body = document.getElementsByTagName('h2')[1];
 var body0 = document.getElementsByTagName('h2')[0];
 body.innerHTML += `<div class='form12'> <form id='mainForm'> <input type='text' id='name123' placeholder='Assignment Name'> <input type='number' id='receivedPoints' placeholder='Received Points' step="0.01"> <input type='number' id='totalPoints' placeholder='Total Points' step = "0.01"> </form> </div> <br>`
 calculatePoints()
+button.setAttribute("type", "reset")
 body.appendChild(button);
 var category = false
 var arrPoints = []
@@ -20,6 +21,7 @@ function calculatePoints(){
     var received = 0
     var total = 0
     var grade = 0
+    var weirdCategories = false;
     if (categories != null){
         var descrip = categories.getElementsByClassName("description")
         arrPoints = new Array(descrip.length)
@@ -29,14 +31,26 @@ function calculatePoints(){
             temp[0] = temp[0].replace(",","")
             temp[1] = descrip[i].getElementsByClassName("numeric")[0].getElementsByClassName("text-muted")[0].innerHTML
             temp[1] = temp[1].replace(",","")
-            temp[2] = descrip[i].getElementsByClassName("percent")[0].innerHTML
-            temp[2] = temp[2].substring(0, temp[2].indexOf("%"))
+            try {
+                temp[2] = descrip[i].getElementsByClassName("percent")[0].innerHTML
+                temp[2] = temp[2].substring(0, temp[2].indexOf("%"))
+            } catch {
+                weirdCategories = true
+                received += parseFloat(temp[0])
+                total += parseFloat(temp[1])
+                console.log(received + " " + total)
+            }
             temp[3] = descrip[i].innerHTML
             temp[3] = temp[3].substring(temp[3].indexOf("\n"), temp[3].indexOf("<"))
             temp[3] = temp[3].trim(" ")
             console.log(temp[0] + " " + temp[1] + " " + temp[2] + " " + temp[3])
             arrPoints[i] = temp
-            grade += (parseFloat(temp[0])/parseFloat(temp[1])) * (parseFloat(temp[2])/100)
+            if (!(weirdCategories)) {
+                grade += (parseFloat(temp[0])/parseFloat(temp[1])) * (parseFloat(temp[2])/100)
+            }
+        }
+        if (weirdCategories){
+            grade = received/total;
         }
         if (firstTime) {
             let selectCategory = document.createElement("select")
@@ -236,7 +250,14 @@ function createLetter(achieved, max){
 // CONNECT THE BUTTON TO ADDING A NEW ROW
 button.addEventListener ("click", function() {
     let rec = document.getElementById("receivedPoints").value
+    console.log(rec)
+    if (rec == "") {
+        rec = 0
+    }
     let tot = document.getElementById("totalPoints").value
+    if (tot == "") {
+        tot = 0
+    }
     let nam = document.getElementById("name123").value
     var namCat = ""
     if (categories != null) {
@@ -289,5 +310,4 @@ button.addEventListener ("click", function() {
     console.log(newGrade);
     console.log(gradesArray);
     calculatePoints();
-    
   });
