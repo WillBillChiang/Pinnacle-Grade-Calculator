@@ -2,6 +2,10 @@
 
 An extension to see how an assignment will affect your class grade. 
 
+[Chrome Web Store](https://chrome.google.com/webstore/detail/pinnacle-grade-calculator/ajmebljhmdndihimeodajeiicccpdfei?hl=en)
+
+[Firefox Download (must be manually installed)](https://addons.mozilla.org/firefox/downloads/file/3423715/pinnacle_grade_calculator-1.0.3-fx.xpi?src=devhub)
+
 -------------------------------------------------------------------
 # Why use it?
 
