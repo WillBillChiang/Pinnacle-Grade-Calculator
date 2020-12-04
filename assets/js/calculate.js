@@ -1,8 +1,10 @@
 // Setting up all the global variables and buttons before.
 var categories = document.getElementById("Categories")
-var gradesArray = document.getElementsByTagName('tbody')[2];
+var gradesArray = document.getElementsByTagName('tbody')[1];
+console.log(gradesArray)
 if (categories != null) {
-    gradesArray = document.getElementsByTagName('tbody')[3];
+    gradesArray = document.getElementsByTagName('tbody')[2];
+    console.log(gradesArray)
 }
 var firstTime = true
 var button = document.createElement("button");
